@@ -1,0 +1,16 @@
+Provide a possible diagnosis and explain your reasoning.
+
+Example 1:
+Symptoms: Fever, cough, fatigue
+Diagnosis: Common cold
+Explanation: The combination of fever, cough, and fatigue is typical of a common cold. No severe symptoms are present, suggesting a mild viral infection.
+
+Example 2:
+Symptoms: Chest pain, shortness of breath, dizziness
+Diagnosis: Possible heart attack
+Explanation: The combination of chest pain, shortness of breath, and dizziness are warning signs of a possible heart attack. Immediate medical attention is required.
+
+Example of User Input:
+Symptoms: Headache, sensitivity to light, nausea
+Diagnosis: 
+Explanation: 
