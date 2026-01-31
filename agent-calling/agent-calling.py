@@ -2,7 +2,8 @@ import json
 import subprocess
 from openai import OpenAI
 from dotenv import load_dotenv
-
+import requests
+import os
 # ---------------------------------------------------------
 # ENV + CLIENT
 # ---------------------------------------------------------
@@ -14,13 +15,14 @@ client = OpenAI()
 # TOOLS (PYTHON)
 # ---------------------------------------------------------
 
-def get_weather(city: str) -> str:
-    fake_weather = {
-        "delhi": "🌤️ 32°C, clear",
-        "london": "🌧️ 12°C, rainy",
-        "new york": "☁️ 18°C, cloudy",
-    }
-    return fake_weather.get(city.lower(), "Weather not found")
+
+def get_weather(zip_code: str):
+    apikey = os.getenv("WEATHER_API_KEY")
+    country = "in"
+    url = f"https://api.openweathermap.org/data/2.5/weather?zip={zip_code},{country}&appid={apikey}"
+    result = requests.get(url)
+    response = result.json()
+    return response
 
 
 def run_shell(command: str) -> str:
@@ -47,11 +49,11 @@ tools = [
     {
         "type": "function",
         "name": "get_weather",
-        "description": "Get current weather for a city",
+        "description": "Get current weather for a city by proving its zip code",
         "parameters": {
             "type": "object",
-            "properties": {"city": {"type": "string"}},
-            "required": ["city"],
+            "properties": {"zip_code": {"type": "string"}},
+            "required": ["zip_code"],
         },
     },
     {
@@ -72,7 +74,7 @@ tools = [
 
 response = client.responses.create(
     model="gpt-4.1",
-    input="what is the weather in delhi?",
+    input="what is the weather at zip code 201007?",
     tools=tools,
 )
 
@@ -88,7 +90,7 @@ for item in response.output:
         args = json.loads(item.arguments)
 
         if item.name == "get_weather":
-            result = get_weather(args["city"])
+            result = get_weather(args["zip_code"])
         elif item.name == "run_shell":
             result = run_shell(args["command"])
         else:
