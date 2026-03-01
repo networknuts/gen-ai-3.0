@@ -1,0 +1,9 @@
+services:
+  mongodb:
+    image: docker.io/library/mongo:latest
+    container_name: chat-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    restart: unless-stopped
