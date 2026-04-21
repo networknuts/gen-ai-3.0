@@ -5,7 +5,7 @@ guard = Guard().use(
     DetectPII(pii_entities=["EMAIL_ADDRESS", "PHONE_NUMBER"], on_fail="fix")
 )
 
-text = "hi my name is aryan and my number is 09326532664"
+text = "hi my name is aryan and my number is 00000000000"
 
 try:
     result = guard.validate(text)
